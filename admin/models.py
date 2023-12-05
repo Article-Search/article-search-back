@@ -8,13 +8,6 @@
 from django.db import models
 
 
-class Admin(models.Model):
-
-    class Meta:
-        managed = False
-        db_table = 'admin'
-
-
 class Article(models.Model):
     pdf_url = models.ForeignKey('Pdf', models.DO_NOTHING, db_column='pdf_url')
     institution = models.ForeignKey('Institution', models.DO_NOTHING)
@@ -201,13 +194,6 @@ class Institution(models.Model):
         db_table = 'institution'
 
 
-class Moderator(models.Model):
-
-    class Meta:
-        managed = False
-        db_table = 'moderator'
-
-
 class Pdf(models.Model):
     url = models.CharField(primary_key=True, max_length=255)
 
@@ -217,6 +203,7 @@ class Pdf(models.Model):
 
 
 class User(models.Model):
+    role = models.CharField(max_length=255)
 
     class Meta:
         managed = False
