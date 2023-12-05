@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'dj_rest_auth',
+    'django_elasticsearch_dsl',
 ]
 
 SITE_ID = 1
@@ -105,6 +106,12 @@ DATABASES = {
     }
 }
 
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': congig('ELASTICSEARCH_HOST' 'localhost:9200'),
+        'http_auth': (config('ELASTICSEARCH_USER', 'username'), config('ELASTICSEARCH_PASS', 'password'))
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
