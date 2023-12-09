@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Local apps
-
+    "userAuth.apps.UserauthConfig",
     # Third party apps
     'django.contrib.sites',  # Allauth
     'rest_framework',
@@ -70,6 +70,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     # TODO: Don't forget to change this in production
 ]
+
+AUTH_USER_MODEL = 'userAuth.User'
 
 ROOT_URLCONF = 'core.urls'
 
