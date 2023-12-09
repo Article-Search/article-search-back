@@ -110,7 +110,7 @@ DATABASES = {
 
 ELASTICSEARCH_DSL={
     'default': {
-        'hosts': congig('ELASTICSEARCH_HOST' 'localhost:9200'),
+        'hosts': config('ELASTICSEARCH_HOST' 'localhost:9200'),
         'http_auth': (config('ELASTICSEARCH_USER', 'username'), config('ELASTICSEARCH_PASS', 'password'))
     }
 }

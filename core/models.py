@@ -202,9 +202,9 @@ class Pdf(models.Model):
         db_table = 'pdf'
 
 
-class User(models.Model):
-    role = models.CharField(max_length=255)
+# class User(models.Model):
+#     role = models.CharField(max_length=255)
 
-    class Meta:
-        managed = False
-        db_table = 'user'
+#     class Meta:
+#         managed = False
+#         db_table = 'user'
