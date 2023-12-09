@@ -8,6 +8,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
+from .decorators import role_required
 
 # Create your views here.
 
@@ -16,7 +17,7 @@ def register(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         role =3
-        serializer.save(role=role)
+        serializer.save(role=role)#here the password is hashed and role is set because of the create_user function in the manager that is called in the create function in the serializer
         #get user with hashed password
         user = User.objects.get(email=request.data['email'])
         token = Token.objects.create(user=user)
@@ -48,3 +49,25 @@ def logout(request):
 @authentication_classes([TokenAuthentication])
 def test_token(request):
     return Response({'message': 'You are authenticated'}, status=status.HTTP_200_OK)
+
+#create test_admin and test_user and test_moderator for testing the role_required decorator
+@api_view(['GET'])
+@role_required(['admin'])
+def test_admin(request):
+    return Response({'message': 'You are admin'}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@role_required(['moderator'])
+def test_moderator(request):
+    return Response({'message': 'You are moderator'}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@role_required(['user'])
+def test_user(request):
+    return Response({'message': 'You are user'}, status=status.HTTP_200_OK)
+
+# add test_moderator_admin for testing the role_required decorator
+@api_view(['GET'])
+@role_required(['moderator','admin'])
+def test_moderator_admin(request):
+    return Response({'message': 'You are moderator or admin'}, status=status.HTTP_200_OK)
