@@ -42,8 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # Local apps
-    "userAuth.apps.UserauthConfig",
+    "user_auth.apps.UserauthConfig",
+    "user_auth",
+    "core",
+    "articles",
+    "profiles",
+    
     # Third party apps
     'django.contrib.sites',  # Allauth
     'rest_framework',
@@ -71,7 +77,7 @@ CORS_ALLOWED_ORIGINS = [
     # TODO: Don't forget to change this in production
 ]
 
-AUTH_USER_MODEL = 'userAuth.User'
+AUTH_USER_MODEL = 'user_auth.User'
 
 ROOT_URLCONF = 'core.urls'
 
@@ -110,7 +116,7 @@ DATABASES = {
 
 ELASTICSEARCH_DSL={
     'default': {
-        'hosts': config('ELASTICSEARCH_HOST' 'localhost:9200'),
+        'hosts': config('ELASTICSEARCH_HOST', 'localhost:9200'),
         'http_auth': (config('ELASTICSEARCH_USER', 'username'), config('ELASTICSEARCH_PASS', 'password'))
     }
 }
