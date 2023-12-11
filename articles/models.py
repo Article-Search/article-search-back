@@ -20,6 +20,8 @@ class Pdf(models.Model):
 class Article(models.Model):
     pdf_url = models.ForeignKey('Pdf', models.DO_NOTHING, db_column='pdf_url')
     institution = models.ForeignKey('Institution', models.DO_NOTHING)
+    title = models.CharField(max_length=255)
+    summary = models.CharField(max_length=255)
 
     class Meta:
         managed = False

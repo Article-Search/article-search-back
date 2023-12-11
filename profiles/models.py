@@ -7,7 +7,7 @@ from user_auth.models import User
 # Here you can import the users models from the user_auth app and operate on them
 
 class Favorite(models.Model):
-    user = models.ForeignKey('User', models.DO_NOTHING)
+    user = models.ForeignKey(User, models.DO_NOTHING, related_name='user', )
 
     class Meta:
         managed = False

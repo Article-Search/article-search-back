@@ -1,4 +1,4 @@
-from django.contrib import admin
-from admin import Admin
+# from django.contrib import admin
+# from admin import Admin
 
-admin.site.register(Admin)
+# admin.site.register(Admin)

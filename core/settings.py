@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
     # Local apps
     "user_auth.apps.UserauthConfig",
-    "user_auth",
     "core",
     "articles",
     "profiles",
