@@ -50,7 +50,6 @@ def logout(request):
 def test_token(request):
     return Response({'message': 'You are authenticated'}, status=status.HTTP_200_OK)
 
-#create test_admin and test_user and test_moderator for testing the role_required decorator
 @api_view(['GET'])
 @role_required(['admin'])
 def test_admin(request):
@@ -66,8 +65,23 @@ def test_moderator(request):
 def test_user(request):
     return Response({'message': 'You are user'}, status=status.HTTP_200_OK)
 
-# add test_moderator_admin for testing the role_required decorator
 @api_view(['GET'])
 @role_required(['moderator','admin'])
 def test_moderator_admin(request):
     return Response({'message': 'You are moderator or admin'}, status=status.HTTP_200_OK)
+
+#reset password view
+@api_view(['POST'])
+@role_required(['user','admin','moderator'])
+def reset_password(request):
+    email = request.data['email']
+    #check if the email is of the user that is logged in
+    if request.user.email != email:
+        return Response({'error': 'You are not allowed to reset password for this user'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        user = User.objects.get(email=email)
+        user.set_password(request.data['password'])
+        user.save()
+        return Response({'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
+    except:
+        return Response({'error': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
