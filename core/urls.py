@@ -20,9 +20,9 @@ from rest_framework import routers
 
 from articles.views import ArticleDocumentView
 
-router = routers.SimpleRouter(trailing_slash=False)
-
-router.register(r'article-search', ArticleDocumentView, basename='article-search')
+# router = routers.SimpleRouter(trailing_slash=False)
+#
+# router.register(r'article-search', ArticleDocumentView, basename='article-search')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +31,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path("search/", include("search.urls")),
+    path("article/", include("articles.urls"))
 ]
 
-urlpatterns += router.urls
+# urlpatterns += router.urls

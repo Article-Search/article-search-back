@@ -1,4 +1,10 @@
-from django_elasticsearch_dsl_drf.constants import SUGGESTER_COMPLETION
+from django_elasticsearch_dsl_drf.constants import (
+    LOOKUP_FILTER_RANGE,
+    LOOKUP_QUERY_GTE,
+    LOOKUP_QUERY_IN,
+    SUGGESTER_COMPLETION,
+)
+
 from django_elasticsearch_dsl_drf.filter_backends import (
     DefaultOrderingFilterBackend,
     FacetedSearchFilterBackend,
@@ -32,11 +38,11 @@ class ArticleDocumentView(DocumentViewSet):
         'institutions',
     )
     filter_fields = {
-        'keywords': 'keywords',
-        'authors_first_name': 'authors.first_name',
-        'authors_last_name': 'authors.last_name',
-        'institution_name': 'institution.name',
-        'publish_date': 'publish_date',
+        'keywords': {'field': 'keywords', 'lookups': [LOOKUP_QUERY_IN]},
+        'authors_first_name': {'field': 'authors.first_name', 'lookups': [LOOKUP_QUERY_IN]},
+        'authors_last_name': {'field': 'authors.last_name', 'lookups': [LOOKUP_QUERY_IN]},
+        'institution_name': {'field': 'institution.name', 'lookups': [LOOKUP_QUERY_IN]},
+        'publish_date': {'field': 'publish_date', 'lookups': [LOOKUP_FILTER_RANGE]},
     }
     suggester_fields = {
         'title_suggest': {

@@ -15,7 +15,7 @@ base_data = {
 }
 
 # Define the URL for the POST requests
-url = "http://localhost:9200/articles/_doc/"
+url = "http://localhost:9200/article/_doc/"
 
 # Generate and send 20 documents
 for _ in range(20):

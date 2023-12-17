@@ -9,4 +9,3 @@ services:
       - ./data/elastic:/var/lib/elasticsearch/data
     ports:
       - 9200:9200
-
