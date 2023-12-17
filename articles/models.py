@@ -1,10 +1,10 @@
 from django.db import models
 
+
 # Create your models here.
 
 
 class Institution(models.Model):
-
     class Meta:
         managed = False
         db_table = 'institution'
@@ -17,11 +17,10 @@ class Pdf(models.Model):
         managed = False
         db_table = 'pdf'
 
+
 class Article(models.Model):
     pdf_url = models.ForeignKey('Pdf', models.DO_NOTHING, db_column='pdf_url')
-    institution = models.ForeignKey('Institution', models.DO_NOTHING)
-    title = models.CharField(max_length=255)
-    summary = models.CharField(max_length=255)
+    authors = models.ManyToManyField('Author', through='ArticleAuthor')
 
     class Meta:
         managed = False
@@ -29,7 +28,7 @@ class Article(models.Model):
 
 
 class ArticleAuthor(models.Model):
-    author = models.OneToOneField('Author', models.DO_NOTHING, db_column='author_ID', primary_key=True)  # Field name made lowercase. The composite primary key (author_ID, article_id) found, that is not supported. The first column is selected.
+    author = models.ForeignKey('Author', models.DO_NOTHING, db_column='author_ID')
     article = models.ForeignKey(Article, models.DO_NOTHING)
 
     class Meta:
@@ -39,7 +38,11 @@ class ArticleAuthor(models.Model):
 
 
 class Author(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
 
     class Meta:
         managed = False
         db_table = 'author'
+
+
