@@ -126,9 +126,9 @@ ELASTICSEARCH_DSL = {
     }
 }
 
-# ELASTICSEARCH_INDEX_NAMES = {
-#     'articles.Article': 'articles',
-# }
+ELASTICSEARCH_INDEX_NAMES = {
+    'articles.documents': 'articles',
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
