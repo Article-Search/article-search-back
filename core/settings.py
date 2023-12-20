@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "core",
     "articles",
     "profiles",
+    "search",
 
     # Third party apps
     'django.contrib.sites',  # Allauth
@@ -125,9 +126,9 @@ ELASTICSEARCH_DSL = {
     }
 }
 
-ELASTICSEARCH_INDEX_NAMES = {
-    'articles.article': 'articles',
-}
+# ELASTICSEARCH_INDEX_NAMES = {
+#     'articles.Article': 'articles',
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

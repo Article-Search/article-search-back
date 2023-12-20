@@ -19,12 +19,8 @@ class Pdf(models.Model):
 
 
 class Article(models.Model):
-    pdf_url = models.ForeignKey('Pdf', models.DO_NOTHING, db_column='pdf_url')
-    authors = models.ManyToManyField('Author', through='ArticleAuthor')
-
     class Meta:
-        managed = False
-        db_table = 'article'
+        managed = True  # TODO: check wether I need to reverse it back to False
 
 
 class ArticleAuthor(models.Model):
@@ -44,5 +40,3 @@ class Author(models.Model):
     class Meta:
         managed = False
         db_table = 'author'
-
-

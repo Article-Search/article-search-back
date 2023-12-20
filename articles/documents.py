@@ -52,18 +52,18 @@ class ArticleDocument(Document):
     class Django:
         model = Article
 
-    def prepare_title(self, instance):
-        # Retrieve title from Elasticsearch
-        pass
-
-    def prepare_publish_date(self, instance):
-        # Retrieve publish_date from Elasticsearch
-        pass
-
-    def prepare_keywords(self, instance):
-        # Retrieve keywords from Elasticsearch
-        pass
-
-    def prepare_integral_text(self, instance):
-        # Retrieve integral_text from Elasticsearch
-        pass
+    # def prepare_title(self, instance):
+    #     # Retrieve title from Elasticsearch
+    #     pass
+    #
+    # def prepare_publish_date(self, instance):
+    #     # Retrieve publish_date from Elasticsearch
+    #     pass
+    #
+    # def prepare_keywords(self, instance):
+    #     # Retrieve keywords from Elasticsearch
+    #     pass
+    #
+    # def prepare_integral_text(self, instance):
+    #     # Retrieve integral_text from Elasticsearch
+    #     pass
