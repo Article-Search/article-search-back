@@ -30,8 +30,8 @@ urlpatterns = [
     # Third party apps
     path('api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path("search/", include("search.urls")),
-    path("article/", include("articles.urls"))
+    path("", include("search.urls")),
+    path("", include("articles.urls"))
 ]
 
 # urlpatterns += router.urls

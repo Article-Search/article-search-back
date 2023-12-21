@@ -1,12 +1,13 @@
 from django.db import models
 
+from articles.signals import create_article_in_elasticsearch
+
 
 # Create your models here.
 
 
 class Institution(models.Model):
     class Meta:
-        managed = False
         db_table = 'institution'
 
 
@@ -14,13 +15,28 @@ class Pdf(models.Model):
     url = models.CharField(primary_key=True, max_length=255)
 
     class Meta:
-        managed = False
         db_table = 'pdf'
 
 
 class Article(models.Model):
+    elasticsearch_id = models.CharField(max_length=255, default="empty")
+
+    # to know that the article hasn't been indexed yet
+
+    def save(self, *args, **kwargs):
+        # Prepare the article data for Elasticsearch
+        article_data = {
+            'id': self.id,
+        }
+        # Create the article in Elasticsearch and get the Elasticsearch ID
+        elasticsearch_id = create_article_in_elasticsearch(article_data)
+        # Set the elasticsearch_id field
+        self.elasticsearch_id = elasticsearch_id
+        # Call the original save method
+        super().save(*args, **kwargs)
+
     class Meta:
-        managed = True  # TODO: check wether I need to reverse it back to False
+        managed = True  # TODO: check whether I need to reverse it back to False
 
 
 class ArticleAuthor(models.Model):
@@ -28,7 +44,6 @@ class ArticleAuthor(models.Model):
     article = models.ForeignKey(Article, models.DO_NOTHING)
 
     class Meta:
-        managed = False
         db_table = 'article_author'
         unique_together = (('author', 'article'),)
 
@@ -38,5 +53,4 @@ class Author(models.Model):
     last_name = models.CharField(max_length=255)
 
     class Meta:
-        managed = False
         db_table = 'author'
