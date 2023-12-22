@@ -3,13 +3,14 @@ from django_elasticsearch_dsl_drf.constants import (
     LOOKUP_QUERY_GTE,
     LOOKUP_QUERY_IN,
     SUGGESTER_COMPLETION,
+    LOOKUP_QUERY_LTE,
 )
 
 from django_elasticsearch_dsl_drf.filter_backends import (
     DefaultOrderingFilterBackend,
     FacetedSearchFilterBackend,
     FilteringFilterBackend,
-    SearchFilterBackend,
+    CompoundSearchFilterBackend,
     SuggesterFilterBackend,
 )
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
@@ -26,23 +27,24 @@ class ArticleDocumentView(DocumentViewSet):
         DefaultOrderingFilterBackend,
         FacetedSearchFilterBackend,
         FilteringFilterBackend,
-        SearchFilterBackend,
+        CompoundSearchFilterBackend,
         SuggesterFilterBackend,
     ]
 
     search_fields = (
         'title',
-        'authors',
+        'authors.first_name',
+        'authors.last_name',
         'keywords',
-        'integral_text'
-        'institutions',
+        'content',
+        'institutions.name',
     )
     filter_fields = {
         'keywords': {'field': 'keywords', 'lookups': [LOOKUP_QUERY_IN]},
-        'authors_first_name': {'field': 'authors.first_name', 'lookups': [LOOKUP_QUERY_IN]},
-        'authors_last_name': {'field': 'authors.last_name', 'lookups': [LOOKUP_QUERY_IN]},
-        'institution_name': {'field': 'institution.name', 'lookups': [LOOKUP_QUERY_IN]},
-        'publish_date': {'field': 'publish_date', 'lookups': [LOOKUP_FILTER_RANGE]},
+        'author_first_name': {'field': 'authors.first_name', 'lookups': [LOOKUP_QUERY_IN]},
+        'author_last_name': {'field': 'authors.last_name', 'lookups': [LOOKUP_QUERY_IN]},
+        'institution_name': {'field': 'institutions.name', 'lookups': [LOOKUP_QUERY_IN]},
+        'publish_date': {'field': 'publish_date', 'lookups': [LOOKUP_FILTER_RANGE, LOOKUP_QUERY_GTE, LOOKUP_QUERY_LTE]},
     }
     suggester_fields = {
         'title_suggest': {
@@ -69,10 +71,30 @@ class ArticleDocumentView(DocumentViewSet):
                 SUGGESTER_COMPLETION,
             ],
         },
+        'content_suggest': {
+            'field': 'content.suggest',
+            'suggesters': [
+                SUGGESTER_COMPLETION,
+            ],
+        },
+        'summary_suggest': {
+            'field': 'summary.suggest',
+            'suggesters': [
+                SUGGESTER_COMPLETION,
+            ],
+        },
     }
     faceted_search_fields = {
         'keywords': {
             'field': 'keywords',
             'enabled': True,
         },
+        # 'authors': {
+        #     'field': 'authors.last_name',
+        #     'enabled': True,
+        # },
+        # 'institutions': {
+        #     'field': 'institutions.name',
+        #     'enabled': True,
+        # },
     }
