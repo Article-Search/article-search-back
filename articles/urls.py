@@ -16,6 +16,7 @@ urlpatterns = [
 
 """
 GET requests for the articles app:
+!!! ALWAYS SEARCH WITH lowercase letters
 
 1. **Listing all articles**:
     - URL: http://127.0.0.1:8000/articles/

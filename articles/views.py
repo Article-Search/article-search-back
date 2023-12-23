@@ -3,7 +3,8 @@ from django_elasticsearch_dsl_drf.constants import (
     LOOKUP_QUERY_GTE,
     LOOKUP_QUERY_IN,
     SUGGESTER_COMPLETION,
-    LOOKUP_QUERY_LTE,
+    LOOKUP_QUERY_LTE, LOOKUP_FILTER_TERM, LOOKUP_FILTER_TERMS, LOOKUP_FILTER_PREFIX, LOOKUP_FILTER_WILDCARD,
+    LOOKUP_QUERY_EXCLUDE, LOOKUP_QUERY_ISNULL,
 )
 
 from django_elasticsearch_dsl_drf.filter_backends import (
@@ -11,7 +12,7 @@ from django_elasticsearch_dsl_drf.filter_backends import (
     FacetedSearchFilterBackend,
     FilteringFilterBackend,
     CompoundSearchFilterBackend,
-    SuggesterFilterBackend,
+    SuggesterFilterBackend, NestedFilteringFilterBackend,
 )
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 from articles.documents import ArticleDocument
@@ -29,23 +30,79 @@ class ArticleDocumentView(DocumentViewSet):
         FilteringFilterBackend,
         CompoundSearchFilterBackend,
         SuggesterFilterBackend,
+        NestedFilteringFilterBackend
     ]
 
-    search_fields = (
-        'title',
-        'authors.first_name',
-        'authors.last_name',
-        'keywords',
-        'content',
-        'institutions.name',
-    )
+    search_fields = {
+        'title': {'fuzziness': 'AUTO'},
+        'keywords': {'fuzziness': 'AUTO'},
+        'content': None,
+        'summary': {'fuzziness': 'AUTO'},
+    }
+
+    search_nested_fields = {
+        'authors': {
+            'path': 'authors',
+            'fields': {
+                'first_name': {'fuzziness': 'AUTO'},
+                'last_name': {'fuzziness': 'AUTO'},
+            },
+        },
+        'institutions': {
+            'path': 'institutions',
+            'fields': {
+                'name': {'fuzziness': 'AUTO'},
+            },
+        },
+    }
+
     filter_fields = {
         'keywords': {'field': 'keywords', 'lookups': [LOOKUP_QUERY_IN]},
-        'author_first_name': {'field': 'authors.first_name', 'lookups': [LOOKUP_QUERY_IN]},
-        'author_last_name': {'field': 'authors.last_name', 'lookups': [LOOKUP_QUERY_IN]},
-        'institution_name': {'field': 'institutions.name', 'lookups': [LOOKUP_QUERY_IN]},
+        # 'author_first_name': {'field': 'authors.first_name', 'lookups': [LOOKUP_QUERY_IN]},
+        # 'author_last_name': {'field': 'authors.last_name', 'lookups': [LOOKUP_QUERY_IN]},
+        # 'institution_name': {'field': 'institutions.name', 'lookups': [LOOKUP_QUERY_IN]},
         'publish_date': {'field': 'publish_date', 'lookups': [LOOKUP_FILTER_RANGE, LOOKUP_QUERY_GTE, LOOKUP_QUERY_LTE]},
     }
+
+    nested_filter_fields = {
+        'author_first_name': {
+            'field': 'authors.first_name.raw',
+            'path': 'authors',
+            'lookups': [
+                LOOKUP_FILTER_TERM,
+                LOOKUP_FILTER_TERMS,
+                LOOKUP_FILTER_PREFIX,
+                LOOKUP_FILTER_WILDCARD,
+                LOOKUP_QUERY_EXCLUDE,
+                LOOKUP_QUERY_ISNULL,
+            ],
+        },
+        'author_last_name': {
+            'field': 'authors.last_name.raw',
+            'path': 'authors',
+            'lookups': [
+                LOOKUP_FILTER_TERM,
+                LOOKUP_FILTER_TERMS,
+                LOOKUP_FILTER_PREFIX,
+                LOOKUP_FILTER_WILDCARD,
+                LOOKUP_QUERY_EXCLUDE,
+                LOOKUP_QUERY_ISNULL,
+            ],
+        },
+        'institution_name': {
+            'field': 'institutions.name.raw',
+            'path': 'institutions',
+            'lookups': [
+                LOOKUP_FILTER_TERM,
+                LOOKUP_FILTER_TERMS,
+                LOOKUP_FILTER_PREFIX,
+                LOOKUP_FILTER_WILDCARD,
+                LOOKUP_QUERY_EXCLUDE,
+                LOOKUP_QUERY_ISNULL,
+            ],
+        },
+    }
+
     suggester_fields = {
         'title_suggest': {
             'field': 'title.suggest',

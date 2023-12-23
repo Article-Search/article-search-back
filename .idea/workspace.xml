@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f28752c3-5649-4d6d-b61c-f3488f12256f" name="Changes" comment="fixed the docker problem and trying to add data to ES">
-      <change afterPath="$PROJECT_DIR$/articles/migrations/0003_alter_article_elasticsearch_id.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/articles/migrations/0004_alter_articleauthor_unique_together_and_more.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f1c56982-cbd9-408d-b6b0-d7e8df01c021.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f1c56982-cbd9-408d-b6b0-d7e8df01c021.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/articles/documents.py" beforeDir="false" afterPath="$PROJECT_DIR$/articles/documents.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/articles/management/commands/generateTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/articles/management/commands/generateTest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/articles/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/articles/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/articles/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/articles/signals.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/articles/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/articles/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/articles/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/articles/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/search/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/search/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/search/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/search/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -217,6 +210,7 @@
       <workItem from="1703155933682" duration="5852000" />
       <workItem from="1703173566186" duration="13435000" />
       <workItem from="1703264497922" duration="12697000" />
+      <workItem from="1703347258027" duration="8695000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />

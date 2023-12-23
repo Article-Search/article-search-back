@@ -8,6 +8,7 @@ from .models import Article
 
 @registry.register_document
 class ArticleDocument(Document):
+    publish_date = fields.DateField()
     title = fields.TextField(
         fields={
             'raw': fields.TextField(),
@@ -37,14 +38,6 @@ class ArticleDocument(Document):
             }
         ),
     })
-    publish_date = fields.DateField()
-    keywords = fields.KeywordField(multi=True)
-    content = fields.TextField(
-        fields={
-            'raw': fields.TextField(),
-            'suggest': fields.CompletionField(),
-        }
-    )
     summary = fields.TextField(
         # TODO: Check whether I'll leave the suggestion part to optimize the index performance
         fields={
@@ -52,6 +45,14 @@ class ArticleDocument(Document):
             'suggest': fields.CompletionField(),
         }
     )
+    keywords = fields.KeywordField(multi=True)
+    content = fields.TextField(
+        fields={
+            'raw': fields.TextField(),
+            'suggest': fields.CompletionField(),
+        }
+    )
+
     pdf_url = fields.TextField()
     references = fields.NestedField(properties={
         'title': fields.TextField(

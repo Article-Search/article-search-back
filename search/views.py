@@ -77,11 +77,11 @@ class PaginatedElasticSearchAPIView(APIView, LimitOffsetPagination):
                 # Apply the appropriate filter based on the field
                 if field == 'keywords':
                     search = search.filter('term', keywords=value)
-                elif field == 'authors.first_name':
+                elif field == 'author_first_name':
                     search = search.filter('nested', path='authors', query=Q('term', authors__first_name=value))
-                elif field == 'authors.last_name':
+                elif field == 'author_last_name':
                     search = search.filter('nested', path='authors', query=Q('term', authors__last_name=value))
-                elif field == 'institutions.name':
+                elif field == 'institution_name':
                     search = search.filter('nested', path='institutions', query=Q('term', institutions__name=value))
 
         # Execute the search and return the results
