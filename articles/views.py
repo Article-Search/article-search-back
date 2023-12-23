@@ -3,6 +3,7 @@ from django.http.response import json
 import pytest
 from core.settings import DOCUMENTS_ROOT
 
+
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -19,6 +20,10 @@ def hello(request):
 def upload_file(request):  # use APIview or function based view or any view u want
     # Extracting data
 
+    try:
+        print(f"Here I shoot a test! {request.data}")
+    except Exception as e:
+        print(e)
     body = request.data
     url = body.get('url')
     is_directory = body.get('is-directory')
@@ -44,7 +49,7 @@ def upload_file(request):  # use APIview or function based view or any view u wa
 
             default_storage.save(DOCUMENTS_ROOT+file.name, file)
 
-        return Response(f'file(s) uploaded!', status=status.HTTP_200_OK)
+        return Response(f'file(s) uploaded!', status=status.HTTP_201_CREATED)
 
 def upload_file_with_url(name, url, is_directory=False):
     output = DOCUMENTS_ROOT + name
