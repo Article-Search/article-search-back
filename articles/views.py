@@ -12,7 +12,7 @@ from django_elasticsearch_dsl_drf.filter_backends import (
     FacetedSearchFilterBackend,
     FilteringFilterBackend,
     CompoundSearchFilterBackend,
-    SuggesterFilterBackend, NestedFilteringFilterBackend,
+    SuggesterFilterBackend, NestedFilteringFilterBackend, OrderingFilterBackend,
 )
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 from articles.documents import ArticleDocument
@@ -26,6 +26,7 @@ class ArticleDocumentView(DocumentViewSet):
 
     filter_backends = [
         DefaultOrderingFilterBackend,
+        OrderingFilterBackend,
         FacetedSearchFilterBackend,
         FilteringFilterBackend,
         CompoundSearchFilterBackend,
@@ -146,12 +147,16 @@ class ArticleDocumentView(DocumentViewSet):
             'field': 'keywords',
             'enabled': True,
         },
+        # doesn't work well with the textFields
+        # 'institutions': {
+        #     'field': 'institutions.name.raw',
+        #     'enabled': True,
+        # },
         # 'authors': {
         #     'field': 'authors.last_name',
         #     'enabled': True,
         # },
-        # 'institutions': {
-        #     'field': 'institutions.name',
-        #     'enabled': True,
-        # },
+    }
+    ordering_fields = {
+        'publish_date': 'publish_date'
     }
