@@ -26,14 +26,6 @@ def files_names():
 def folder_name():
     return "articles_folder"
 
-# Create your tests here.
-def test_say_hello(client):
-    endpoint = reverse('articles_home')
-    
-    response = client.get(endpoint)
-
-    assert response.status_code == 200
-
 # @pytest.mark.skip
 def test_one_input_file_upload(client, file_name):
     endpoint = reverse('file_upload')
@@ -78,9 +70,9 @@ def test_multiple_input_files_upload(client, files_names):
     # assert the response code
     assert response.status_code == 201
 
-    # # remove the created pdf files
-    # for name in files_names:
-    #     os.remove(DOCUMENTS_ROOT + name) 
+    # remove the created pdf files
+    for name in files_names:
+        os.remove(DOCUMENTS_ROOT + name) 
 
 @pytest.mark.skip
 def test_one_google_drive_file_upload(client, file_name, drive_file_url):

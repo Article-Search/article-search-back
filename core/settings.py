@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Local apps
-    "user_auth.apps.UserauthConfig",
+    "user_auth",
     "core",
     "articles",
     "profiles",
