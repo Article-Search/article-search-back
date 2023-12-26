@@ -16,22 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-
-from articles.views import ArticleDocumentView
-
-# router = routers.SimpleRouter(trailing_slash=False)
-#
-# router.register(r'article-search', ArticleDocumentView, basename='article-search')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('articles/', include('articles.urls')),
 
     # Third party apps
     path('api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path("", include("search.urls")),
-    path("", include("articles.urls"))
-]
 
-# urlpatterns += router.urls
+    # application routes
+    path("articles/", include("search.urls")),
+    path("articles/", include("articles.urls"))
+]
