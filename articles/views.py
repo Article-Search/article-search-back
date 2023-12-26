@@ -1,9 +1,5 @@
-from django.http import HttpResponse
-from django.http.response import json
-import pytest
 from core.settings import DOCUMENTS_ROOT
-
-from rest_framework import serializers, status
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 

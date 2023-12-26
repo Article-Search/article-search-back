@@ -4,12 +4,11 @@ from rest_framework.routers import DefaultRouter
 from articles.views import ArticleDocumentView, hello, upload_file
 
 router = DefaultRouter()
-router.register(r"articles", ArticleDocumentView, basename="articles")
+router.register(r"", ArticleDocumentView, basename="article_document")
 
 urlpatterns = [
     # this route provide exact word searching, exact keywords filtering, suggestions in searches
     path("", include(router.urls)),
-    path('', hello, name='articles_home'),
     path('upload/', upload_file, name='file_upload'),
 ]
 

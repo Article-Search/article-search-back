@@ -51,10 +51,10 @@ def test_one_input_file_upload(client, file_name):
 
     assert response.status_code == 201
 
-    # # remove the created pdf file
-    # os.remove(DOCUMENTS_ROOT + file_name) 
+    # remove the created pdf file
+    os.remove(DOCUMENTS_ROOT + file_name) 
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_multiple_input_files_upload(client, files_names):
     endpoint = reverse('file_upload')
 
