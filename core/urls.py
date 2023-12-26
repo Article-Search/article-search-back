@@ -26,7 +26,7 @@ urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
 
     # application routes
-    path("auth/", include("userAuth.urls")),
+    path("auth/", include("user_auth.urls")),
     path("articles/", include("search.urls")),
     path("articles/", include("articles.urls"))
 ]

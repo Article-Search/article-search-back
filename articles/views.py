@@ -7,18 +7,10 @@ from django.core.files.storage import default_storage
 import gdown
 
 # ========================= Articles upload views =========================
-@api_view(['GET'])
-def hello(request):
-    return Response("Welcome to articles!", status=status.HTTP_200_OK)
-
 @api_view(['POST'])
-def upload_file(request):  # use APIview or function based view or any view u want
-    # Extracting data
+def upload_file(request): 
 
-    try:
-        print(f"Here I shoot a test! {request.data}")
-    except Exception as e:
-        print(e)
+    # Extracting data
     body = request.data
     url = body.get('url')
     is_directory = body.get('is-directory')
