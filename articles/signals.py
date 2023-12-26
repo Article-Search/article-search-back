@@ -34,7 +34,22 @@ from elasticsearch_dsl.connections import connections
 from .documents import ArticleDocument
 
 # Create a connection to Elasticsearch
-connections.create_connection(hosts=[settings.ELASTICSEARCH_DSL['default']['hosts']], timeout=20)
+connections.create_connection(
+    hosts=[settings.ELASTICSEARCH_DSL['default']['hosts']],
+    http_auth=settings.ELASTICSEARCH_DSL['default']['http_auth'],
+    timeout=20,
+)
+# connections.create_connection(
+#     hosts=[settings.ELASTICSEARCH_DSL['default']['hosts']],
+#     http_auth=(
+#         settings.ELASTICSEARCH_DSL['default']['ELASTICSEARCH_USER'],
+#         settings.ELASTICSEARCH_DSL['default']['ELASTICSEARCH_PASS']
+#     ),
+#     verify_certs=True,
+#     ca_certs="~/http_ca.pem",
+#     timeout=20
+# )
+
 # TODO: change it in production
 def create_article_in_elasticsearch(article_data):
     # Create the article in Elasticsearch

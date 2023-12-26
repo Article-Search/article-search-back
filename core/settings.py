@@ -122,7 +122,7 @@ ELASTICSEARCH_DSL = {
     'default': {
         'hosts': config('ELASTICSEARCH_HOST', 'http://localhost:9200'),
         'http_auth': (config('ELASTICSEARCH_USER', 'elastic'), config('ELASTICSEARCH_PASS', 'changeme')),
-        'timeout': 30
+        'timeout': 30,
     }
 }
 
