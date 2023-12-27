@@ -160,6 +160,26 @@ class ArticleDocumentView(DocumentViewSet):
         },
     }
 
+
+    faceted_search_fields = {
+        'keywords': {
+            'field': 'keywords',
+            'enabled': True,
+        },
+        # doesn't work well with the textFields
+        # 'institutions': {
+        #     'field': 'institutions.name.raw',
+        #     'enabled': True,
+        # },
+        # 'authors': {
+        #     'field': 'authors.last_name',
+        #     'enabled': True,
+        # },
+    }
+    ordering_fields = {
+        'publish_date': 'publish_date'
+    }
+
     suggester_fields = {
         'title_suggest': {
             'field': 'title.suggest',
@@ -197,22 +217,4 @@ class ArticleDocumentView(DocumentViewSet):
                 SUGGESTER_COMPLETION,
             ],
         },
-    }
-    faceted_search_fields = {
-        'keywords': {
-            'field': 'keywords',
-            'enabled': True,
-        },
-        # doesn't work well with the textFields
-        # 'institutions': {
-        #     'field': 'institutions.name.raw',
-        #     'enabled': True,
-        # },
-        # 'authors': {
-        #     'field': 'authors.last_name',
-        #     'enabled': True,
-        # },
-    }
-    ordering_fields = {
-        'publish_date': 'publish_date'
     }
