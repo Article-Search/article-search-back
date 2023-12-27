@@ -1,4 +1,3 @@
-from io import BytesIO
 import pytest
 from django.urls import reverse
 from core.settings import DOCUMENTS_ROOT
@@ -29,7 +28,6 @@ def folder_name():
 # @pytest.mark.skip
 def test_one_input_file_upload(client, file_name):
     endpoint = reverse('file_upload')
-
     filepath = f"articles/tests_assets/{file_name}"
 
     # check if the temp file already exists, and delete it if yes
