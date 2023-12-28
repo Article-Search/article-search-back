@@ -7,8 +7,6 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_("The email must be set"))
         if not password:
             raise ValueError(_("The password must be set"))
-        if not role:
-            raise ValueError(_("The role must be set"))
         email = self.normalize_email(email)
         user = self.model(email=email,role=role, **extra_fields)
         #for hashing the password

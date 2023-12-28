@@ -16,7 +16,7 @@ from django.http import Http404
 @role_required(['moderator'])
 def Create_List_Mod(request):
         if request.method=='GET':
-            moderators=User.objects.filter(role=1)
+            moderators=User.objects.filter(role=2)
             serializer=UserSerializer(moderators,many=True)
             return Response(serializer.data)
         elif request.method=='POST':
@@ -29,7 +29,7 @@ def Create_List_Mod(request):
                     'name': name,
                     'email': email,
                     'password': make_password(password),
-                    'role': 'Mod',  # Set the role automatically
+                    'role': 2,  # Set the role automatically
                  }
             print(request_data)
             serializer = UserSerializer(data=request_data)
@@ -43,7 +43,7 @@ def Create_List_Mod(request):
 @role_required(['moderator'])
 def Pickone_Modify_Delete_Mod(request, pk):
     try:
-        moderator = User.objects.filter(role='Mod').get(pk=pk)
+        moderator = User.objects.filter(role=2).get(pk=pk)
     except User.DoesNotExist:
         raise Http404
 
@@ -60,7 +60,7 @@ def Pickone_Modify_Delete_Mod(request, pk):
             'name': name,
             'email': email,
             'password': make_password(password),#reja3ha set_password
-            'role': 'Mod',
+            'role': 2,
         }
 
         serializer = UserSerializer(moderator, data=request_data)
