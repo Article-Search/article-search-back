@@ -23,4 +23,7 @@ urlpatterns = [
     # Third party apps
     path('api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    
+    #Application routes
+    path('administration/',include('appAdmin.urls'))
 ]
