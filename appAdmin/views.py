@@ -13,7 +13,7 @@ from django.http import Http404
 
 
 @api_view(['GET','POST'])
-@role_required(['moderator'])
+@role_required(['admin'])
 def Create_List_Mod(request):
         if request.method=='GET':
             moderators=User.objects.filter(role=2)
@@ -21,15 +21,19 @@ def Create_List_Mod(request):
             return Response(serializer.data)
         elif request.method=='POST':
             print(f"Received data: {request.data}")
-            name = request.data.get('name')
+            username = request.data.get('username')
             email = request.data.get('email')
-            password = request.data.get('password')       
-            print(f"Extracted data: name={name}, email={email}, password={password}")
+            password = request.data.get('password')
+            first_name=request.data.get('first_name')
+            last_name=request.data.get('last_name')       
+            print(f"Extracted data: username={username}, email={email}, password={password}")
             request_data = {
-                    'name': name,
+                    'username': username,
                     'email': email,
                     'password': make_password(password),
                     'role': 2,  # Set the role automatically
+                    'first_name':first_name,
+                    'last_name':last_name,
                  }
             print(request_data)
             serializer = UserSerializer(data=request_data)
@@ -40,7 +44,7 @@ def Create_List_Mod(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-@role_required(['moderator'])
+@role_required(['admin'])
 def Pickone_Modify_Delete_Mod(request, pk):
     try:
         moderator = User.objects.filter(role=2).get(pk=pk)
@@ -52,15 +56,18 @@ def Pickone_Modify_Delete_Mod(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        name = request.data.get('name')
+        username = request.data.get('username')
         email = request.data.get('email')
         password = request.data.get('password')
-
+        first_name=request.data.get('first_name')
+        last_name=request.data.get('last_name')  
         request_data = {
-            'name': name,
+            'username': username,
             'email': email,
             'password': make_password(password),#reja3ha set_password
             'role': 2,
+            'first_name':first_name,
+            'last_name':last_name,            
         }
 
         serializer = UserSerializer(moderator, data=request_data)
@@ -72,3 +79,12 @@ def Pickone_Modify_Delete_Mod(request, pk):
     elif request.method == 'DELETE':
         moderator.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)      
+    
+    
+    #     {   
+    #     "password":kwala,
+    #     "username":piralta,
+    #     "email": "rimyoni@gmail.com",
+    #     "first_name": "tikda",
+    #     "last_name": "fyoli"
+    # }
