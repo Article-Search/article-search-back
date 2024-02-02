@@ -27,9 +27,17 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
         token['first_name'] = user.first_name
         token['last_name'] = user.last_name
-        token['role'] = user.role  # Assuming the User model has a 'role' field
+        token['role'] = user.role 
 
         return token
+        def validate(self, attrs):
+            data = super().validate(attrs)
+
+            refresh = self.get_token(self.user)
+            data['refresh'] = str(refresh)
+            data['access'] = str(refresh.access_token)
+
+            return data
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -53,45 +61,20 @@ def register(request):
 def login(request):
     email = request.data['email']
     password = request.data['password']
-
-    if email == '' or password == '': return Response({'message': 'Credintials missing'}, status=status.HTTP_400_BAD_REQUEST) 
-
     try:
         user = User.objects.get(email=email)
         if user.check_password(password):
-            refresh = RefreshToken.for_user(user)
-            access = CustomTokenObtainPairSerializer.get_token(user)
+            refresh = CustomTokenObtainPairSerializer.get_token(user)
+            access = str(refresh.access_token)
             return Response({
                 'refresh': str(refresh),
                 'access': str(access),
                 'user': UserSerializer(user).data
             })
         else:
-            return Response({'message': 'Wrong password'}, status=status.HTTP_401_UNAUTHORIZED)
-
-    except:
-        return Response({'message': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
-@api_view(['POST'])
-def logout(request):
-    request.user.auth_token.delete()
-    return Response(status=status.HTTP_200_OK)
-
-#reset password view
-@api_view(['POST'])
-@role_required(['user','admin','moderator'])
-def reset_password(request):
-    email = request.data['email']
-    #check if the email is of the user that is logged in
-    if request.user.email != email:
-        return Response({'message': 'You are not allowed to reset password for this user'}, status=status.HTTP_400_BAD_REQUEST)
-    try:
-        user = User.objects.get(email=email)
-        user.set_password(request.data['password'])
-        user.save()
-        return Response({'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
-    except:
-        return Response({'message': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Wrong password'}, status=status.HTTP_400_BAD_REQUEST)
+    except User.DoesNotExist:
+        return Response({'error': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # @api_view(['GET'])
@@ -119,6 +102,7 @@ def test_moderator(request):
 @api_view(['GET'])
 @role_required(['user'])
 def test_user(request):
+    print("request")
     return Response({'message': 'You are user'}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])

@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'django_elasticsearch_dsl',
     'django_elasticsearch_dsl_drf',
+    'rest_framework_simplejwt',
 ]
 
 SITE_ID = 1
@@ -66,7 +67,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -216,8 +217,17 @@ DOCUMENTS_ROOT = 'temp/files/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'TOKEN_MODEL': None,
+# }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
-    }
+}
 
