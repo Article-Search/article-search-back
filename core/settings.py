@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from decouple import config
 import environ
+from datetime import timedelta
 
 # Initialise environment variables
 env = environ.Env()
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Local apps
-    "user_auth",
+    "user_auth.apps.UserauthConfig",
     "core",
     "articles",
     "profiles",
@@ -50,7 +51,7 @@ INSTALLED_APPS = [
     # Third party apps
     'django.contrib.sites',  # Allauth
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'corsheaders',
     'dj_rest_auth',
     'django_elasticsearch_dsl',
@@ -162,7 +163,14 @@ ELASTICSEARCH_INDEX_NAMES = {
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 25
+    "PAGE_SIZE": 25,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'TOKEN_MODEL': None,
 }
 
 # Password validation
@@ -204,3 +212,10 @@ DOCUMENTS_ROOT = 'temp/files/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    }
+

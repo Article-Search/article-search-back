@@ -166,6 +166,7 @@ class ArticleDocumentView(DocumentViewSet):
             'field': 'keywords',
             'enabled': True,
         },
+        #TODO: fix
         # doesn't work well with the textFields
         # 'institutions': {
         #     'field': 'institutions.name.raw',
