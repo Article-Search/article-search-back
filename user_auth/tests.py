@@ -1,13 +1,8 @@
 import pytest
 from django.urls import reverse
 import json
-from .models import User
 from .serializer import UserSerializer
 from rest_framework.authtoken.models import Token
-
-@pytest.fixture
-def random_user():
-    return {'email': 'hello@world.com', 'password': 'hello', 'first_name': 'hello', 'last_name': 'world'}
 
 @pytest.fixture
 def valid_registered_user():

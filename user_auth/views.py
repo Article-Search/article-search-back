@@ -53,6 +53,9 @@ def register(request):
 def login(request):
     email = request.data['email']
     password = request.data['password']
+
+    if email == '' or password == '': return Response({'message': 'Credintials missing'}, status=status.HTTP_400_BAD_REQUEST) 
+
     try:
         user = User.objects.get(email=email)
         if user.check_password(password):
@@ -64,9 +67,31 @@ def login(request):
                 'user': UserSerializer(user).data
             })
         else:
-            return Response({'error': 'Wrong password'}, status=status.HTTP_400_BAD_REQUEST)
-    except User.DoesNotExist:
-        return Response({'error': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'Wrong password'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    except:
+        return Response({'message': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def logout(request):
+    request.user.auth_token.delete()
+    return Response(status=status.HTTP_200_OK)
+
+#reset password view
+@api_view(['POST'])
+@role_required(['user','admin','moderator'])
+def reset_password(request):
+    email = request.data['email']
+    #check if the email is of the user that is logged in
+    if request.user.email != email:
+        return Response({'message': 'You are not allowed to reset password for this user'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        user = User.objects.get(email=email)
+        user.set_password(request.data['password'])
+        user.save()
+        return Response({'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
+    except:
+        return Response({'message': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # @api_view(['GET'])

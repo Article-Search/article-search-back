@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from .views import ArticleDocumentView, upload_file
+from .views import ArticleDocumentView, upload_file, get_file
 
 router = DefaultRouter()
 router.register(r"", ArticleDocumentView, basename="article_document")
@@ -9,7 +9,8 @@ router.register(r"", ArticleDocumentView, basename="article_document")
 urlpatterns = [
     # this route provide exact word searching, exact keywords filtering, suggestions in searches
     path("", include(router.urls)),
-    path('upload', upload_file, name='file_upload'),
+    path('upload/', upload_file, name='file_upload'),
+    path('article/<str:filename>/', get_file, name='get_file'),
 ]
 
 # urlpatterns += router.urls

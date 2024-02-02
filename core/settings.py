@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "articles",
     "profiles",
     "search",
+    "admins",
 
     # Third party apps
     'django.contrib.sites',  # Allauth
@@ -95,6 +96,7 @@ CORS_ALLOW_METHODS = (
 
 CORS_ALLOW_HEADERS = [
     'accept',
+    'authorization',
     'origin',
     'Content-type',
     "x-csrftoken",

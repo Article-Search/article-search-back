@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -28,5 +27,8 @@ urlpatterns = [
     # application routes
     path("auth/", include("user_auth.urls")),
     path("articles/", include("search.urls")),
-    path("articles/", include("articles.urls"))
+    path("articles/", include("articles.urls")),
+    path("moderators/", include("admins.urls"))
 ]
+
+# handler500 = 'core.views.error_500'
