@@ -1,10 +1,21 @@
+# user_auth/serializers.py
 from rest_framework import serializers
 from .models import Favorite
-from articles.models import Article
 
 class FavoriteSerializer(serializers.ModelSerializer):
-    articles = serializers.PrimaryKeyRelatedField(queryset=Article.objects.all(), many=True)
-
     class Meta:
         model = Favorite
         fields = '__all__'
+
+
+
+# from rest_framework import serializers
+# from .models import Favorite
+# from articles.serializers import ArticleSerializer
+
+# class FavoriteSerializer(serializers.ModelSerializer):
+#     articles = ArticleSerializer(many=True)
+
+#     class Meta:
+#         model = Favorite
+#         fields = '__all__'

@@ -19,39 +19,36 @@ from django.http import JsonResponse
 def add_list_favorites(request):
     if request.method=='GET':
         print("i'm Get")
+        favorites = Favorite.objects.all()
+        serializer = FavoriteSerializer(favorites, many=True)
+        return Response(serializer.data)
         #not finished
 
     elif request.method=='POST':
         print("i'm Post")
-        user = request.user
-        data = request.data
-
-        try:
-            article_id = data['article_id']
-            article = get_object_or_404(Article, id=article_id)
-        except KeyError:
-            return Response({'error': 'article_id is required'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-    else:
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        serializer = FavoriteSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET','DELETE'])
 # @role_required(['user'])
-def pickone_delete_favorite(request, article_id):
-    user = request.user
+def pickone_delete_favorite(request, pk):
+    try:
+        favorite = Favorite.objects.get(pk=pk)
+    except Favorite.DoesNotExist:
+        return Response({'message': 'Favorite not found'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        print("i'm Get")
-        # not finished
+        serializer = FavoriteSerializer(favorite)
+        return Response(serializer.data)
 
     elif request.method == 'DELETE':
-        print("i'm Delete")
-        favorite = get_object_or_404(Favorite, user=user)
-        article = get_object_or_404(Article, id=article_id)
-        favorite.articles.remove(article)
-
-        return Response({'status': 'Article removed from favorites successfully'})
+        favorite.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
         
     else:

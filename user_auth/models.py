@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser,PermissionsMixin
 from .manager import CustomUserManager
+from profiles.models import Favorite
 
 class User(AbstractUser,PermissionsMixin):
     username = models.CharField(max_length=30, blank=True, null=True, unique=False)
@@ -14,6 +15,7 @@ class User(AbstractUser,PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
+    favorites = models.ManyToManyField(Favorite, blank=True, related_name='users')
     USERNAME_FIELD = 'email'#so we can catch the error if the email is not unique 
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
