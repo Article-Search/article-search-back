@@ -17,10 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Third party apps
     path('api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
+
+    # application routes
+    path("auth/", include("user_auth.urls")),
+    path("articles/", include("search.urls")),
+    path("articles/", include("articles.urls"))
 ]
