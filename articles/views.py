@@ -1,12 +1,32 @@
 from core.settings import DOCUMENTS_ROOT
+from django.http import FileResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.http import HttpResponse as HTTPResponse
 
 from django.core.files.storage import default_storage
 import gdown
+import pypdf
 
 # ========================= Articles upload views =========================
+@api_view(['POST'])
+def test_file_upload_type(request):
+    # use pypdf to check if the file is a pdf
+    # if not pdfReader.isEncrypted: return Response("File is not a PDF", status=status.HTTP_400_BAD_REQUEST)
+    file = request.FILES.get('articles')
+    try:
+        pypdf.PdfReader(file)
+    except:
+        return Response("File is not a PDF", status=status.HTTP_400_BAD_REQUEST)
+    print(file.name)
+    return Response(f'file uploaded!', status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+def get_file(request, filename):
+    file = open(DOCUMENTS_ROOT+filename+'.pdf', 'rb')
+    return HTTPResponse(file.read(), content_type='application/pdf',status=status.HTTP_200_OK)
+
 @api_view(['POST'])
 def upload_file(request): 
 
@@ -31,7 +51,15 @@ def upload_file(request):
         if not len(files): return Response("No files provided. Enter either a file(s) or a URL", status=status.HTTP_400_BAD_REQUEST)
 
         for file in files:
+            # check if the file is an actual pdf using pyPDF
+            try:
+                pypdf.PdfReader(file)
+            except:
+                continue
+            # if not pdfReader.isEncrypted: return Response("File is not a PDF", status=status.HTTP_400_BAD_REQUEST)
+
             print(file.name)
+            
             # Do what ever you want with it
 
             default_storage.save(DOCUMENTS_ROOT+file.name, file)
