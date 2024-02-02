@@ -32,7 +32,7 @@ def login(request):
     email = request.data['email']
     password = request.data['password']
 
-    if email == '' or password == '': return Response({'error': 'Credintials missing'}, status=status.HTTP_400_BAD_REQUEST) 
+    if email == '' or password == '': return Response({'message': 'Credintials missing'}, status=status.HTTP_400_BAD_REQUEST) 
 
     try:
         user = User.objects.get(email=email)
@@ -41,10 +41,10 @@ def login(request):
             token = Token.objects.get(user=user)
             return Response({'token': token.key, 'user': UserSerializer(user).data}, status=status.HTTP_200_OK)
         else:
-            return Response({'error': 'Wrong password'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'message': 'Wrong password'}, status=status.HTTP_401_UNAUTHORIZED)
 
     except:
-        return Response({'error': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'message': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 def logout(request):
@@ -58,14 +58,14 @@ def reset_password(request):
     email = request.data['email']
     #check if the email is of the user that is logged in
     if request.user.email != email:
-        return Response({'error': 'You are not allowed to reset password for this user'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'You are not allowed to reset password for this user'}, status=status.HTTP_400_BAD_REQUEST)
     try:
         user = User.objects.get(email=email)
         user.set_password(request.data['password'])
         user.save()
         return Response({'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
     except:
-        return Response({'error': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 #this one is for test purpose test_token
 @api_view(['GET'])
