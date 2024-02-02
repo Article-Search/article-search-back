@@ -1,10 +1,11 @@
-numpy
-torch
-sentence-transformers
-requests
-langchain
-pytesseract # this one may cause some problems in instalation, since it needs an extra things to do 
-pdf2image 
+numpy==1.26.2
+torch==2.1.2
+sentence-transformers==2.2.2
+requests==2.31.0
+langchain==0.0.184
+pytesseract==0.3.10 # this one may cause some problems in instalation, since it needs an extra things to do 
+pdf2image==1.16.3
+ 
 
 # after doing pip list I got these 
 
