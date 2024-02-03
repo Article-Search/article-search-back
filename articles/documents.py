@@ -9,6 +9,7 @@ from .models import Article
 @registry.register_document
 class ArticleDocument(Document):
     publish_date = fields.DateField()
+    validated = fields.BooleanField()
     title = fields.TextField(
         fields={
             'raw': fields.TextField(),

@@ -52,6 +52,7 @@ class Command(BaseCommand):
         # Define the base data structure
         base_data = {
             "title": "",
+            "validated": False,
             "authors": [],
             "keywords": [],
             "content": "",
@@ -64,6 +65,7 @@ class Command(BaseCommand):
             # Generate fake data
             data = base_data.copy()
             data["title"] = fake.sentence()
+            data["validated"] = fake.boolean()
             data["authors"] = [{"first_name": fake.first_name(), "last_name": fake.last_name()} for _ in range(2)]
             data["keywords"] = [fake.word() for _ in range(2)]
             data["content"] = fake.text()

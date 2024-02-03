@@ -147,6 +147,7 @@ class ArticleDocumentView(DocumentViewSet):
         # 'author_last_name': {'field': 'authors.last_name', 'lookups': [LOOKUP_QUERY_IN]},
         # 'institution_name': {'field': 'institutions.name', 'lookups': [LOOKUP_QUERY_IN]},
         'publish_date': {'field': 'publish_date', 'lookups': [LOOKUP_FILTER_RANGE, LOOKUP_QUERY_GTE, LOOKUP_QUERY_LTE]},
+        'validated': {'field': 'validated', 'lookups': [LOOKUP_FILTER_TERM]},
     }
 
     nested_filter_fields = {
