@@ -1,4 +1,5 @@
 from django.db import models
+from articles.models import Article
 from user_auth.models import User
 
 # Create your models here.
@@ -7,8 +8,8 @@ from user_auth.models import User
 # Here you can import the users models from the user_auth app and operate on them
 
 class Favorite(models.Model):
-    user = models.ForeignKey(User, models.DO_NOTHING, related_name='user', )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    articles = models.ManyToManyField(Article)
 
-    class Meta:
-        managed = False
-        db_table = 'favorite'
+    def __str__(self):
+        return f'Favorite of user {self.user.email}'
