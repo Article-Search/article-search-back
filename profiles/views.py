@@ -9,8 +9,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import Favorite
 from articles.models import Article
-from django.core import serializers
-import json
+from elasticsearch import Elasticsearch
+
 
 
 
@@ -33,8 +33,7 @@ def add_to_favorites(request):
     user = request.user
     # get article id from request body
     article_id = request.data.get('article_id')
-    article = get_object_or_404(Article, pk=article_id)
-
+    article = get_object_or_404(Article, elasticsearch_id=article_id)
     favorite, created = Favorite.objects.get_or_create(user=user)
 
     if article not in favorite.articles.all():
@@ -46,11 +45,23 @@ def add_to_favorites(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_favorites(request):
+#     user = request.user
+#     favorite = get_object_or_404(Favorite, user=user)
+
+#     articles = list(favorite.articles.values('pk', 'elasticsearch_id'))
+
+#     return JsonResponse({'articles': articles})
     user = request.user
     favorite = get_object_or_404(Favorite, user=user)
 
-    articles = list(favorite.articles.values('pk', 'elasticsearch_id'))
+    es = Elasticsearch(hosts=["http://localhost:9200"])
 
+    articles = []
+    for article in favorite.articles.values('pk', 'elasticsearch_id'):
+        res = es.get(index="articles", id=article['elasticsearch_id'])
+        article_es = res['_source']
+        article_es['id'] = res['_id']  # Add the ID to the article
+        articles.append(article_es)
     return JsonResponse({'articles': articles})
 
 
@@ -59,7 +70,7 @@ def get_favorites(request):
 @permission_classes([IsAuthenticated])
 def delete_from_favorites(request, article_id):
     user = request.user
-    article = get_object_or_404(Article, pk=article_id)
+    article = get_object_or_404(Article, elasticsearch_id=article_id)
     favorite = get_object_or_404(Favorite, user=user)
 
     if article in favorite.articles.all():
