@@ -28,7 +28,8 @@ urlpatterns = [
     path("auth/", include("user_auth.urls")),
     path("articles/", include("search.urls")),
     path("articles/", include("articles.urls")),
-    path("moderators/", include("admins.urls"))
+    path("moderators/", include("admins.urls")),
+    path("profile/", include("profiles.urls")),
 ]
 
 # handler500 = 'core.views.error_500'

@@ -61,19 +61,19 @@ def pickone_modify_delete_moderator(request, id):
     elif request.method == 'PUT':
         username = request.data.get('username')
         email = request.data.get('email')
-        password = request.data.get('password')
+        # password = request.data.get('password')
         first_name=request.data.get('first_name')
         last_name=request.data.get('last_name')  
         request_data = {
             'username': username,
             'email': email,
-            'password': make_password(password),#reja3ha set_password
+            # 'password': set_password(password),#reja3ha set_password
             'role': 2,
             'first_name':first_name,
             'last_name':last_name,            
         }
 
-        serializer = UserSerializer(moderator, data=request_data)
+        serializer = UserSerializer(moderator, data=request_data , partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({'user': serializer.data}, status=status.HTTP_200_OK)
