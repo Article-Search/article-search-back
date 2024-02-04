@@ -8,7 +8,7 @@ router.register(r"", ArticleDocumentView, basename="article_document")
 
 urlpatterns = [
     # this route provide exact word searching, exact keywords filtering, suggestions in searches
-    path("", include(router.urls)),
+    path("/", include(router.urls)),
     path('upload/', upload_file, name='file_upload'),
     path('article/<str:filename>/', get_file, name='get_file'),
 ]
