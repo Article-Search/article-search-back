@@ -41,7 +41,6 @@ class Prompter:
         )
         return conversation_chain
 
-
     def prompt_openai(self,prompt,context):
         text_splitter = CharacterTextSplitter(
             chunk_size=1000,
@@ -63,6 +62,7 @@ class Prompter:
             chunk_overlap=200,
             length_function=len                                     
         )
+
         chunks = text_splitter.split_text(text)
         output = self.query(chunks)
         print(output)
@@ -75,6 +75,7 @@ class Prompter:
                     "context":' '.join(final),
                     "question":question
         }
+
         headers = {
                     "accept": "application/json",
                     "content-type": "application/json",
@@ -87,9 +88,6 @@ class Prompter:
             return response.json()['answer']
         else:
             return None
-
-
-
 
 class InfosExtractor:
     
@@ -191,7 +189,6 @@ class InfosExtractor:
         self.answers_map['abstract'] = abstract
 
         #----------------------------------------------------
-
 
     def get_summary(self):
         self.answers_map['summary'] = self.prompter.prompt_openai('What is the summary of this paper?', self.data.extractedText)

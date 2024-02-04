@@ -4,6 +4,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.http import HttpResponse as HTTPResponse
+from .article_search_data_extraction.ExecuteMe import extract_data
+from articles.signals import create_article_in_elasticsearch
+from articles.models import Article
 
 from django.core.files.storage import default_storage
 import gdown
@@ -55,16 +58,27 @@ def upload_file(request):
             try:
                 pypdf.PdfReader(file)
             except:
-                continue
-            # if not pdfReader.isEncrypted: return Response("File is not a PDF", status=status.HTTP_400_BAD_REQUEST)
+                return Response("File is not a PDF", status=status.HTTP_400_BAD_REQUEST)
 
             print(file.name)
             
-            # Do what ever you want with it
-
+            # save the file to the local storage
             default_storage.save(DOCUMENTS_ROOT+file.name, file)
 
-        return Response(f'file(s) uploaded!', status=status.HTTP_201_CREATED)
+            # extract the data from the pdf
+            json_data = extract_data(DOCUMENTS_ROOT+file.name)
+            return Response({"message":"file uploaded", "data":json_data}, status=status.HTTP_201_CREATED)
+
+            # save the data to the elastic search
+            article_id = create_article_in_elasticsearch(json_data)
+
+            # save the id in the SQL database
+            article = Article(elasticsearch_id=article_id)
+            article.save()
+            json_data['id'] = article_id
+            
+
+        return Response({"message":f'file(s) uploaded!', "data": json_data}, status=status.HTTP_201_CREATED)
 
 def upload_file_with_url(name, url, is_directory=False):
     output = DOCUMENTS_ROOT + name
