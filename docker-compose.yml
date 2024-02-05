@@ -9,3 +9,16 @@ services:
       - ./data/elastic:/var/lib/elasticsearch/data
     ports:
       - 9200:9200
+    env_file:
+      - .env
+  web:
+    build: .
+    command: bash -c "python manage.py migrate --run-syncdb && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - elasticsearch
+    env_file:
+      - .env
