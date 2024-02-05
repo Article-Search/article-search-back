@@ -7,6 +7,11 @@ from django.http import HttpResponse as HTTPResponse
 from .article_search_data_extraction.ExecuteMe import extract_data
 from articles.signals import create_article_in_elasticsearch
 from articles.models import Article
+from .documents import ArticleDocument
+from .serializers import ArticleDocumentSerializer
+
+import json
+
 
 from django.core.files.storage import default_storage
 import gdown
@@ -66,16 +71,19 @@ def upload_file(request):
             default_storage.save(DOCUMENTS_ROOT+file.name, file)
 
             # extract the data from the pdf
-            json_data = extract_data(DOCUMENTS_ROOT+file.name)
-            return Response({"message":"file uploaded", "data":json_data}, status=status.HTTP_201_CREATED)
+            with open('articles/article_search_data_extraction/file4.json', 'r') as f:
+                json_data = json.load(f)
 
-            # save the data to the elastic search
+
+            # Save the document to Elasticsearch
             article_id = create_article_in_elasticsearch(json_data)
+            json_data['id'] = article_id
 
-            # save the id in the SQL database
             article = Article(elasticsearch_id=article_id)
             article.save()
-            json_data['id'] = article_id
+
+            return Response({"message":"file uploaded", "data":json_data}, status=status.HTTP_201_CREATED)
+
             
 
         return Response({"message":f'file(s) uploaded!', "data": json_data}, status=status.HTTP_201_CREATED)

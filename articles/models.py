@@ -34,7 +34,7 @@ class Article(models.Model):
     #     # Call the original save method
     #     super().save(*args, **kwargs)
 
-    class Meta:
+    class Meta(object):
         managed = True  # TODO: check whether I need to reverse it back to False
 
 # class ArticleAuthor(models.Model):

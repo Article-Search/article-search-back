@@ -1,0 +1,55 @@
+{
+  "publish_date": null,
+  "title": {
+    "raw": "Generating Diverse Code Explanations using the GPT-3 Large Language Model.",
+    "suggest": "Generating Diverse Code Explanations using the GPT-3 Large Language Model."
+  },
+  "authors": [
+    {
+      "first_name": {
+        "raw": "Stephen",
+        "suggest": "Stephen"
+      },
+      "last_name": {
+        "raw": "MacNeil",
+        "suggest": "MacNeil"
+      }
+    },
+    {
+      "first_name": {
+        "raw": "Seth",
+        "suggest": "Seth"
+      },
+      "last_name": {
+        "raw": "Bernstein",
+        "suggest": "Bernstein"
+      }
+    }
+  ],
+  "institutions": [
+    "doiorg"
+  ],
+  "summary": {
+    "raw": "The given context does not provide a clear summary of the paper.",
+    "suggest": "The given context does not provide a clear summary of the paper."
+  },
+  "keywords": [
+    "large language models",
+    " natural language processing",
+    " code explanations",
+    " computer science education"
+  ],
+  "content": {
+    "raw": "some content",
+    "suggest": "some content"
+  },
+  "pdf_url": null,
+  "references": [
+    {
+      "title": {
+        "raw": "[1] Amjad Altadmri and Neil CC Brown. 2015. 37 million compilations: Investigating novice programming mistakes in large-scale student data. In Proceedings of the 46th ACM Technical Symposium on Computer Science Education. 522-527. [2] Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. 2020. Language models are few-shot learners. Advances in Neural Information Processing Systems 33 (2020), 1877-1901.",
+        "suggest": "[1] Amjad Altadmri and Neil CC Brown. 2015. 37 million compilations: Investigating novice programming mistakes in large-scale student data. In Proceedings of the 46th ACM Technical Symposium on Computer Science Education. 522-527. [2] Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. 2020. Language models are few-shot learners. Advances in Neural Information Processing Systems 33 (2020), 1877-1901."
+      }
+    }
+  ]
+}
