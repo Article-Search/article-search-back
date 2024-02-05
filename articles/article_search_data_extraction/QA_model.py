@@ -170,13 +170,14 @@ class InfosExtractor:
     def get_title(self):
         #--------------------Title---------------------------
         title = self.prompter.prompt_qaLM('What is the title of this paper? the answer should be sent as the name of the paper only', self.beforeAbstract)    
-        pattern = re.compile(r'\"(.*?)\"')
+        pattern = re.compile(r'\\\"(.*?)\\\"')
         match = pattern.search(title)
         # Extract the desired text
         if match:
             self.answers_map['title'] = match.group(1)
         else:
-            self.answers_map['title'] = self.prompter.prompt_openai('What is the title of this paper?', self.beforeAbstract)
+            self.answers_map['title'] = self.prompter.prompt_openai('What is the title of this paper ?', self.beforeAbstract)
+
         #----------------------------------------------------
             
     def get_abstract(self):
