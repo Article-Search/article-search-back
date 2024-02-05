@@ -1,0 +1,31 @@
+{
+  "publish_date": "2021-04-19",
+  "title": "Generating Diverse Code Explanations using the GPT-3 Large Language Model..",
+  "authors": [
+    {
+      "first_name": "Stephen",
+      "last_name": "MacNeil"
+    },
+    {
+      "first_name": "Seth",
+      "last_name": "Bernstein"
+    }
+  ],
+  "institutions": [
+    {
+      "name": "doiorg"
+    }
+  ],
+  "summary": "The given context does not provide a clear summary of the paper.",
+  "keywords": [
+    "hello",
+    "hi"
+  ],
+  "content": "some content",
+  "pdf_url": "https://arxiv.org/pdf/2104.08429.pdf",
+  "references": [
+    {
+      "title": "[1] Amjad Altadmri and Neil CC Brown. 2015. 37 million compilations: Investigating novice programming mistakes in large-scale student data. In Proceedings of the 46th ACM Technical Symposium on Computer Science Education. 522-527. [2] Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. 2020. Language models are few-shot learners. Advances in Neural Information Processing Systems 33 (2020), 1877-1901."
+    }
+  ]
+}

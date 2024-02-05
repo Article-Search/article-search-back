@@ -61,18 +61,12 @@ def clean_text(text):
 class ElasticSearchStruct:
     def __init__(self, title, authors, institutions, summary, keywords, content, references) -> None:
         self.publish_date = None
-        self.title = {
-        "raw": title,
-        "suggest": title
-        }
-        self.summary = {
-        "raw": summary,
-        "suggest": summary
-        }
-        self.content = {
-            "raw": clean_text(content),
-            "suggest": clean_text(content)
-        }
+        self.title = title
+        
+        self.summary = summary
+        
+        self.content = clean_text(content)
+        
         self.pdf_url = None
 
     # create Authors
@@ -82,19 +76,20 @@ class ElasticSearchStruct:
         authorList = []
         for i in range(0, len(authors), 2):
             authorList.append({
-                "first_name": {
-                    "raw": authors[i],
-                    "suggest": authors[i]
-                },
-                "last_name": {
-                    "raw": authors[i+1],
-                    "suggest": authors[i+1]
-                }
+                "first_name":  authors[i],
+                "last_name":  authors[i+1],  
             })
         self.authors = authorList
     # create Institutions
+        
     def createInstitutions(self, institutions):
         self.institutions = institutions.split(',')
+        institutionList = []
+        for i in range(0, len(institutions), 1):
+            institutionList.append({
+                "name": self.institutions[i]
+            })
+        self.institutions = institutionList
     # create Keywords
     def createKeywords(self, keywords):
         self.keywords = keywords.split(',')
@@ -104,10 +99,7 @@ class ElasticSearchStruct:
         referencesList = []
         for reference in references:
             referencesList.append({
-                "title": {
-                    "raw": reference,
-                    "suggest": reference
-                }
+                "title": reference
             })
         self.references = referencesList
     def createJSON(self):
